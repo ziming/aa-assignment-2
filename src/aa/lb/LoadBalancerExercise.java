@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class LoadBalancerExercise {
 
-    private final int PATTERN_CHOICE = Service.PATTERN_2;
+    private final int PATTERN_CHOICE = Service.EASY_PATTERN;
     Service[] workers;
     private int afterSpikeCounter;
     private Random random;
@@ -89,10 +89,6 @@ public class LoadBalancerExercise {
         workers[random.nextInt(workers.length)].service(requestID, requestParameter);
     }
 
-    private void weightedRoundRobinBalance(int requestID, int requestParameter) {
-
-    }
-
     private void evenSizeTaskQueueBalance(int requestID, int requestParameter) {
 
         // get the worker with lowest queue size
@@ -117,7 +113,7 @@ public class LoadBalancerExercise {
             int currentWorkerQueueSize = workers[i].currentQueueSize();
             int currentLeastTasksWorkerQueueSize = workers[leastTasksIndex].currentQueueSize();
 
-            if (currentWorkerQueueSize < currentLeastTasksWorkerQueueSize) {
+            if (currentWorkerQueueSize <= currentLeastTasksWorkerQueueSize) {
                 leastTasksIndex = i;
             }
 
@@ -148,8 +144,8 @@ public class LoadBalancerExercise {
             threads[i] = new Thread(workers[i]);
         }
 
-        for (int i = 0; i < threads.length; i++) {
-            threads[i].start();
+        for (Thread thread : threads) {
+            thread.start();
         }
 
 //        new Thread(worker_1).start();  //"launch" the first worker
@@ -157,25 +153,24 @@ public class LoadBalancerExercise {
 
         //total number of "requests" to process.  You can play with this, but it shouldn't make much difference.
 
-//        int numRequests = 1000;
         int numRequests = 1000;
 
         for (int requestID = 0; requestID < numRequests; requestID++) {
-//            Thread.sleep(4);
+            Thread.sleep(4);
             int requestParameter = random.nextInt(5); //there are different values the client can send in the request; this represents "search for ..."
 
             // uncomment and test
 
-            basicRoundRobinBalance(requestID, requestParameter);
+//            basicRoundRobinBalance(requestID, requestParameter);
 //            randomBalance(requestID, requestParameter);
 
-//            evenSizeTaskQueueBalance(requestID, requestParameter);
+            evenSizeTaskQueueBalance(requestID, requestParameter);
 
         }
 
         //workers will stop after all requests are processed
-        for (int i = 0; i < workers.length; i++) {
-            workers[i].stop();
+        for (Service worker : workers) {
+            worker.stop();
         }
 
 //        worker_1.stop();
