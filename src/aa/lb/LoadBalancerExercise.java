@@ -75,6 +75,14 @@ public class LoadBalancerExercise {
 
     }
 
+    private void roundRobinBalance(int requestID, int requestParameter) {
+        workers[requestID % workers.length].service(requestID, requestParameter);
+    }
+
+    private void randomBalance(int requestID, int requestParameter) {
+        workers[(int) (Math.random() * workers.length)].service(requestID, requestParameter);
+    }
+
     /**
      * Launches two 'workers' to provide service for requests.  These are implemented as separate threads, so they
      * will run in parallel if you have > 1 core.
@@ -112,7 +120,7 @@ public class LoadBalancerExercise {
 //            Thread.sleep(4);
             int requestParameter = new Random().nextInt(5); //there are different values the client can send in the request; this represents "search for ..."
 
-            balance(requestID, requestParameter);
+            roundRobinBalance(requestID, requestParameter);
         }
 
         //workers will stop after all requests are processed
