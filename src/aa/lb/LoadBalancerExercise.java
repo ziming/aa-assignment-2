@@ -6,7 +6,6 @@ public class LoadBalancerExercise {
 
     private final int PATTERN_CHOICE = Service.EASY_PATTERN;
     Service[] workers;
-    private int afterSpikeCounter;
     private Random random;
 
     public LoadBalancerExercise(int numWorkers) {
@@ -17,6 +16,7 @@ public class LoadBalancerExercise {
             //Service has three load patterns: EASY_PATTERN, PATTERN_2 (Spike), PATTERN_3 (Cache)
             workers[i] = new Service(String.format("worker %d", i + 1), PATTERN_CHOICE);
         }
+
         random = new Random();
 
     }
