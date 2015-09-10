@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ParseTimeData {
+public class LoadBalancerTimeDataCsvProducer {
 
     public static void main(String[] args) {
+
+        // Set intelliJ log to timeData.csv or java LoadBalancerTimeDataCsvProducer > timeData.csv
+
         System.out.println("request_id,request_parameter,processing_time,time_in_queue,performed_on_worker,total_time_elapsed");
 
         BufferedReader br = null;
