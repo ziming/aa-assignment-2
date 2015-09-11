@@ -113,7 +113,7 @@ public class LoadBalancerExercise {
             int currentWorkerQueueSize = workers[i].currentQueueSize();
             int currentLeastTasksWorkerQueueSize = workers[leastTasksIndex].currentQueueSize();
 
-            if (currentWorkerQueueSize <= currentLeastTasksWorkerQueueSize) {
+            if (currentWorkerQueueSize < currentLeastTasksWorkerQueueSize) {
                 leastTasksIndex = i;
             }
 
