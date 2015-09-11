@@ -1,4 +1,4 @@
 *.dat
 *.txt
 /out
-.idea/workspace.xml
+/.idea
