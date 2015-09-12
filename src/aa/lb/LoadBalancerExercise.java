@@ -119,7 +119,8 @@ public class LoadBalancerExercise {
             // if empty just return it as worker to take the job right away.
             if (currentWorkerQueueSize == 0) {
                 return workers[i];
-            } else if (currentWorkerQueueSize <= currentLeastTasksWorkerQueueSize) {
+                // wonder if it's better if it is <= instead of < hmm
+            } else if (currentWorkerQueueSize < currentLeastTasksWorkerQueueSize) {
                 leastTasksIndex = i;
                 currentLeastTasksWorkerQueueSize = currentWorkerQueueSize;
             }
