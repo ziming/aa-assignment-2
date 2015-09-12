@@ -54,7 +54,9 @@ public class SearchFishAction extends RecursiveAction {
 
             // on the 8th file fish7.dat the program seem to hang :(
             for (int i = 0; i < 1; i++) {
+
                 fishList.addAll(parser.parseAll(getReader(String.format("fish%d.dat", i))));
+
             }
 
 
@@ -97,7 +99,6 @@ public class SearchFishAction extends RecursiveAction {
 
                     if (fishPrice > 9000) {
                         System.out.println("score");
-                        return;
                     }
 
                 }
