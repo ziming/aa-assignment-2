@@ -99,6 +99,9 @@ public class LoadBalancerExercise {
     private Service getWorkerWithLowestQueueSize() {
 
 
+        // Note to self: Should I just sort the worker list and return the first worker (the least queue size 1)
+        // Would that be faster or slower in this situation?
+
         // this 1 if only 2 worker
 //        return (workers[0].currentQueueSize() < workers[1].currentQueueSize()) ? workers[0] : workers[1];
 
@@ -107,14 +110,18 @@ public class LoadBalancerExercise {
         // aim for clarity, though when the worker count get large, the code may need to be improved.
 
         int leastTasksIndex = 0;
+        int currentLeastTasksWorkerQueueSize = workers[0].currentQueueSize();
 
-        for (int i = 0; i < workers.length; i++) {
+        for (int i = 1; i < workers.length; i++) {
 
             int currentWorkerQueueSize = workers[i].currentQueueSize();
-            int currentLeastTasksWorkerQueueSize = workers[leastTasksIndex].currentQueueSize();
 
-            if (currentWorkerQueueSize < currentLeastTasksWorkerQueueSize) {
+            // if empty just return it as worker to take the job right away.
+            if (currentWorkerQueueSize == 0) {
+                return workers[i];
+            } else if (currentWorkerQueueSize <= currentLeastTasksWorkerQueueSize) {
                 leastTasksIndex = i;
+                currentLeastTasksWorkerQueueSize = currentWorkerQueueSize;
             }
 
         }
