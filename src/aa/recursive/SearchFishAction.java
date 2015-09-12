@@ -13,6 +13,7 @@ import java.util.concurrent.RecursiveAction;
 public class SearchFishAction extends RecursiveAction {
 
     private static final int LIMIT = 500_000;
+
     // CSV Columns
     // TradeID, BuyerID, SellerID, Fish Type, Price, Number of Fish traded
     private static final int TRADE_ID = 0;
