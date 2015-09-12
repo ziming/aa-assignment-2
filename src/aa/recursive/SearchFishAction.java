@@ -74,7 +74,7 @@ public class SearchFishAction extends RecursiveAction {
     }
 
     public static Reader getReader(String fileName) throws UnsupportedEncodingException, FileNotFoundException {
-        return new InputStreamReader(new FileInputStream(fileName), "UTF-8");
+        return new InputStreamReader(new BufferedInputStream(new FileInputStream(fileName)), "UTF-8");
     }
 
     /**
