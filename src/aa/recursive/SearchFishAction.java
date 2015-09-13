@@ -2,6 +2,7 @@ package aa.recursive;
 
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
+import aa.StopWatch;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,10 +31,9 @@ public class SearchFishAction extends RecursiveAction {
 
     public static void main(String[] args) {
 
-
-        // Stop Watch Start!
-//        StopWatch stopWatch = new StopWatch();
-//        stopWatch.start();
+        // Case 1: Include file reading time
+        StopWatch watch = new StopWatch();
+        watch.start();
 
         // Create empty list for all fishes.
         List<String[]> fishList = new ArrayList<>(1_500_000);
@@ -66,12 +66,18 @@ public class SearchFishAction extends RecursiveAction {
 
         System.out.println(fishList.size());
 
+        // Case 2: Exclude file reading time
+//        StopWatch watch = new StopWatch();
+//        watch.start();
+
         SearchFishAction searchFishAction = new SearchFishAction(fishList);
 
         int forkJoinPoolSize = 1;
         ForkJoinPool forkJoinPool = new ForkJoinPool(forkJoinPoolSize);
         forkJoinPool.invoke(searchFishAction);
 
+        watch.stop();
+        System.out.println("Done in " + watch.getTime() + " ms");
         // searchFishAction.go();
     }
 
