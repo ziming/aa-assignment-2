@@ -40,11 +40,12 @@ public class Problem3 {
         HashSet<ReviewStatTask> callableSet = new HashSet<>();
 
 
-        int callablesCount = 50;
+        // this is assuming the later divide is clean. i.e. % callableCount == 0.
+        int callableCount = 50;
         int productListSize = foodList.size();
 
         // assuming long is not needed
-        int partitionSize = foodList.size() / callablesCount;
+        int partitionSize = foodList.size() / callableCount;
 
         for (int i = 0; i < productListSize; i += partitionSize) {
 
@@ -56,9 +57,8 @@ public class Problem3 {
 
         }
 
-        System.out.println(callableSet.size());
-
-
+        // get the real callable count value Could be 51 for example if earlier is 50.
+        callableCount = callableSet.size();
 
         try {
             List<Future<HashMap<String, Long>>> futures = executorService.invokeAll(callableSet);
