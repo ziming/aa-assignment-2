@@ -47,18 +47,31 @@ public class Problem3 {
         // assuming long is not needed
         int partitionSize = foodList.size() / callableCount;
 
-        for (int i = 0; i < productListSize; i += partitionSize) {
+        for (int i = 0, j = 1; i < productListSize; i += partitionSize, j++) {
 
-            callableSet.add(
-                    new ReviewStatTask(
-                            "coffee",
-                            foodList.subList(i, Math.min(i + partitionSize, productListSize))
-                    ));
+            if (j != callableCount) {
+
+                callableSet.add(
+                        new ReviewStatTask(
+                                "coffee",
+                                foodList.subList(i, i + partitionSize)
+                        ));
+
+            } else {
+                callableSet.add(
+                        new ReviewStatTask(
+                                "coffee",
+                                foodList.subList(i, productListSize))
+                );
+
+                // if it's the last you break out of the loop of course
+                break;
+            }
 
         }
 
-        // get the real callable count value Could be 51 for example if earlier is 50.
-        callableCount = callableSet.size();
+        // just to check
+//        System.out.println(callableSet.size());
 
         try {
             List<Future<HashMap<String, Long>>> futures = executorService.invokeAll(callableSet);
