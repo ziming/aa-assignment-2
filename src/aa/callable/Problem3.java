@@ -1,5 +1,8 @@
 package aa.callable;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,46 +16,60 @@ import java.util.concurrent.Future;
 
 public class Problem3 {
 
+    private static final int PRODUCT_ID = 0;
+    private static final int USER_ID = 1;
+    private static final int PROFILE_NAME = 2;
+    private static final int HELPFULNESS = 3;
+    private static final int SCORE = 4;
+    private static final int TIME = 5;
+    private static final int SUMMARY = 6;
+    private static final int TEXT = 7;
+
     public static void main(String[] args) {
 
-        List<HashMap<String, String>> productList = new ArrayList<>();
+        // all the food!
+        List<String[]> foodList = readFile();
 
-        // TODO: Parse and add to the productList
-
-        // productList is filled so now we continue.
+        // foodList is filled so now we continue.
 
         // Thread Pool Creation
         int poolSize = 2;
         ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
 
         // Callables creation
-        HashSet<ReviewStatTask> callables = new HashSet<>();
+        HashSet<ReviewStatTask> callableSet = new HashSet<>();
+
+
         int callablesCount = 50;
-        int productListSize = productList.size();
+        int productListSize = foodList.size();
 
         // assuming long is not needed
-        int partitionSize = productList.size() / callablesCount;
+        int partitionSize = foodList.size() / callablesCount;
 
         for (int i = 0; i < productListSize; i += partitionSize) {
 
-            callables.add(
+            callableSet.add(
                     new ReviewStatTask(
                             "coffee",
-                            productList.subList(i, Math.min(i + partitionSize, productListSize))
+                            foodList.subList(i, Math.min(i + partitionSize, productListSize))
                     ));
 
         }
 
+        System.out.println(callableSet.size());
+
+
+
         try {
-            List<Future<HashMap<String, Long>>> futures = executorService.invokeAll(callables);
+            List<Future<HashMap<String, Long>>> futures = executorService.invokeAll(callableSet);
 
             long totalProductWithSearchTermCount = 0;
             long totalReviewScore = 0;
 
             for (Future<HashMap<String, Long>> future : futures) {
                 HashMap<String, Long> result = future.get();
-                totalProductWithSearchTermCount += result.get("productWithSearchTermCount");
-                totalReviewScore += result.get("partitionTotalReviewScore");
+                totalProductWithSearchTermCount += result.get("PRODUCT_WITH_SEARCH_TERM_COUNT");
+                totalReviewScore += result.get("PARTITION_TOTAL_REVIEW_SCORE");
             }
 
             executorService.shutdown();
@@ -67,14 +84,82 @@ public class Problem3 {
 
     }
 
+    private static List<String[]> readFile() {
+
+        /*
+            product/productId: B0026Y3YBK
+            review/userId: A38BUM0OXH38VK
+            review/profileName: singlewinder
+            review/helpfulness: 0/0
+            review/score: 5.0
+            review/time: 1347667200
+            review/summary: Best everyday cookie!
+            review/text: In the 1980s I spent several
+
+            product/productId: B0026Y3YSS
+            ...
+         */
+
+        List<String[]> foodList = new ArrayList<>(568454);
+
+        // kind of bad here.. works can le, hope no bugs!
+        try (BufferedReader br = new BufferedReader(new FileReader("foods.txt"))) {
+
+            String currentLine;
+
+            while ((currentLine = br.readLine()) != null) {
+
+                String[] row = new String[8];
+
+                row[0] = currentLine.replace("product/productId: ", "");
+
+                currentLine = br.readLine();
+                row[1] = currentLine.replace("review/userId: ", "");
+
+                currentLine = br.readLine();
+                row[2] = currentLine.replace("review/profileName: ", "");
+
+                currentLine = br.readLine();
+                row[3] = currentLine.replace("review/helpfulness: ", "");
+
+                currentLine = br.readLine();
+                row[4] = currentLine.replace("review/score: ", "");
+
+                currentLine = br.readLine();
+                row[5] = currentLine.replace("review/time: ", "");
+
+                currentLine = br.readLine();
+                row[6] = currentLine.replace("review/summary: ", "");
+
+                currentLine = br.readLine();
+                row[7] = currentLine.replace("review/text: ", "");
+
+//                System.out.println(Arrays.toString(row));
+
+                // read the empty line
+                br.readLine();
+
+                foodList.add(row);
+
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+        return foodList;
+
+    }
+
     static class ReviewStatTask implements Callable<HashMap<String, Long>> {
 
         private final String searchTerm;
-        private final List<HashMap<String, String>> productList;
+        private final List<String[]> foodList;
 
-        public ReviewStatTask(String searchTerm, List<HashMap<String, String>> productList) {
+        public ReviewStatTask(String searchTerm, List<String[]> foodList) {
             this.searchTerm = searchTerm;
-            this.productList = productList;
+            this.foodList = foodList;
         }
 
         @Override
@@ -98,10 +183,10 @@ public class Problem3 {
                 review/text: In the 1980s I spent several
              */
 
-            for (HashMap<String, String> product : productList) {
+            for (String[] food : foodList) {
 
                 // Assumption only need to search review/text
-                String reviewText = product.get("review/text");
+                String reviewText = food[Problem3.TEXT];
 
                 // if didn't contain coffee, skip the rest of the loop
                 if (!reviewText.contains(searchTerm)) {
@@ -109,7 +194,9 @@ public class Problem3 {
                 }
 
                 // if reach here mean review contains "coffee so add the score!
-                int productReviewScore = Integer.parseInt(product.get("review/score"));
+                // all the score are 1.0, 2.0, 3.0, 4.0, 5.0 so far... I didn't see things like 3.5 or 5.5 after an
+                // exhaustive search. But just to play safe I will still use double
+                long productReviewScore = (long) Double.parseDouble(food[Problem3.SCORE]);
 
                 partitionTotalReviewScore += productReviewScore;
                 productWithSearchTermCount++;
@@ -117,8 +204,8 @@ public class Problem3 {
             }
 
             HashMap<String, Long> result = new HashMap<>();
-            result.put("partitionTotalReviewScore", partitionTotalReviewScore);
-            result.put("productWithSearchTermCount", productWithSearchTermCount);
+            result.put("PARTITION_TOTAL_REVIEW_SCORE", partitionTotalReviewScore);
+            result.put("PRODUCT_WITH_SEARCH_TERM_COUNT", productWithSearchTermCount);
 
             return result;
 
