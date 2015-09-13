@@ -55,7 +55,20 @@ public class SearchFishAction extends RecursiveAction {
             // on the 8th file fish7.dat the program seem to hang :(
             for (int i = 0; i < 10; i++) {
 
-                fishList.addAll(parser.parseAll(getReader(String.format("fish%d.dat", i))));
+                // Decided not to use parseAll in the end.
+//                fishList.addAll(parser.parseAll(getReader(String.format("fish%d.dat", i))));
+
+                parser.beginParsing(getReader(String.format("fish%d.dat", i)));
+
+                String[] row;
+
+                while ((row = parser.parseNext()) != null) {
+                    fishList.add(row);
+                }
+
+                // the csv lib docs says that close() is automatically called when the end is reached
+                // but not much harm calling it here too again just to make the intent clear to group mates.
+                parser.stopParsing();
 
             }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="247241a4-4368-44f8-a577-ccd3139c7ae1" name="Default" comment="now problem 2 can read file but on the 8th file seem to hang, still good enough for us to write other parts of code!">
+    <list default="true" id="247241a4-4368-44f8-a577-ccd3139c7ae1" name="Default" comment="a little optimization, more to come!">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/aa/recursive/SearchFishAction.java" afterPath="$PROJECT_DIR$/src/aa/recursive/SearchFishAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -28,8 +28,8 @@
       <file leaf-file-name="SearchFishAction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/aa/recursive/SearchFishAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8333333">
-              <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.6666667">
+              <caret line="65" column="38" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#858#859#0" expanded="true" />
@@ -345,7 +345,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.webservices" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="FullScreen" value="false" />
@@ -814,7 +814,7 @@
       <workItem from="1442066794136" duration="638000" />
       <workItem from="1442067501741" duration="5026000" />
       <workItem from="1442125507333" duration="2457000" />
-      <workItem from="1442135359341" duration="3884000" />
+      <workItem from="1442135359341" duration="4889000" />
     </task>
     <task id="LOCAL-00001" summary="remove equal comparison">
       <created>1441954786929</created>
@@ -900,11 +900,17 @@
       <option name="project" value="LOCAL" />
       <updated>1442078071142</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="a little optimization, more to come!">
+      <created>1442143730082</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1442143730082</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37481000" />
+    <option name="totallyTimeSpent" value="38486000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -971,7 +977,8 @@
     <MESSAGE value="now problem 2 can read file but on the 8th file seem to hang, still good enough for us to write other parts of code!" />
     <MESSAGE value="use bufferedinput stream" />
     <MESSAGE value="small fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="small fix" />
+    <MESSAGE value="a little optimization, more to come!" />
+    <option name="LAST_COMMIT_MESSAGE" value="a little optimization, more to come!" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1220,8 +1227,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/aa/recursive/SearchFishAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8333333">
-          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.6666667">
+          <caret line="65" column="38" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#858#859#0" expanded="true" />
