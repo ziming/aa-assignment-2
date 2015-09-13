@@ -1,8 +1,8 @@
 package aa.recursive;
 
+import aa.StopWatch;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
-import aa.StopWatch;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class SearchFishAction extends RecursiveAction {
         watch.start();
 
         // Create empty list for all fishes.
-        List<String[]> fishList = new ArrayList<>(1_500_000);
+        List<String[]> fishList = new ArrayList<>(15_000_000);
 
         // 1. Read all the files and add them to a list.
         CsvParserSettings settings = new CsvParserSettings();
@@ -53,7 +53,7 @@ public class SearchFishAction extends RecursiveAction {
         try {
 
             // on the 8th file fish7.dat the program seem to hang :(
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 10; i++) {
 
                 fishList.addAll(parser.parseAll(getReader(String.format("fish%d.dat", i))));
 
@@ -72,7 +72,7 @@ public class SearchFishAction extends RecursiveAction {
 
         SearchFishAction searchFishAction = new SearchFishAction(fishList);
 
-        int forkJoinPoolSize = 1;
+        int forkJoinPoolSize = 5;
         ForkJoinPool forkJoinPool = new ForkJoinPool(forkJoinPoolSize);
         forkJoinPool.invoke(searchFishAction);
 
