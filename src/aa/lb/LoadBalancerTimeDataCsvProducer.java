@@ -14,16 +14,14 @@ public class LoadBalancerTimeDataCsvProducer {
 
         System.out.println("request_id,request_parameter,processing_time,time_in_queue,performed_on_worker,total_time_elapsed");
 
-        BufferedReader br = null;
 
         // Forgotten Regex already...sigh
         // Request 106 req parameter = 0; processing time ~14 ms; time in queue ~1659 ms.  preformed on (worker 0).  Total elapsed time so far ~ 2109
         Pattern pattern = Pattern.compile("(\\d+).+?(\\d+).+?(\\d+).+?(\\d+).+?(\\d+).+?(\\d+)");
 
-        try {
-            String sCurrentLine;
-            br = new BufferedReader(new FileReader("timeData.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("timeData.txt"))) {
 
+            String sCurrentLine;
 
             while ((sCurrentLine = br.readLine()) != null) {
                 Matcher m = pattern.matcher(sCurrentLine);
@@ -32,14 +30,10 @@ public class LoadBalancerTimeDataCsvProducer {
                 }
 
             }
+
         } catch (IOException e) {
+
             e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 }
