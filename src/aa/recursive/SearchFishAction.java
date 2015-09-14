@@ -11,9 +11,10 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
 
+
 public class SearchFishAction extends RecursiveAction {
 
-    private static final int LIMIT = 500_000;
+    private static final int LIMIT = 15_000_000;
 
     // CSV Columns
     // TradeID, BuyerID, SellerID, Fish Type, Price, Number of Fish traded
@@ -34,6 +35,7 @@ public class SearchFishAction extends RecursiveAction {
         // Case 1: Include file reading time
         StopWatch watch = new StopWatch();
         watch.start();
+
 
         // Create empty list for all fishes.
         List<String[]> fishList = new ArrayList<>(15_000_000);
@@ -63,7 +65,20 @@ public class SearchFishAction extends RecursiveAction {
                 String[] row;
 
                 while ((row = parser.parseNext()) != null) {
+
                     fishList.add(row);
+
+                    // serial print it is so much faster.
+//                    if (row[FISH_TYPE].equals("sting ray")) {
+//
+//                        // assumption it will all be proper integer strings, hence no exception
+//                        int fishPrice = Integer.parseInt(row[PRICE]);
+//
+//                        if (fishPrice > 9000) {
+//                            System.out.println("score");
+//                        }
+//
+//                    }
                 }
 
                 // the csv lib docs says that close() is automatically called when the end is reached
@@ -77,7 +92,6 @@ public class SearchFishAction extends RecursiveAction {
             e.printStackTrace();
         }
 
-        System.out.println(fishList.size());
 
         // Case 2: Exclude file reading time
 //        StopWatch watch = new StopWatch();

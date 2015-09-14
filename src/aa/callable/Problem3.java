@@ -90,6 +90,7 @@ public class Problem3 {
                 totalReviewScore += result.get("PARTITION_TOTAL_REVIEW_SCORE");
             }
 
+
             executorService.shutdown();
 
             double avgReviewRating = (double) totalReviewScore / totalProductWithSearchTermCount;
