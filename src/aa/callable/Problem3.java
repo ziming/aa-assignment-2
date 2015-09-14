@@ -1,5 +1,7 @@
 package aa.callable;
 
+import aa.StopWatch;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,6 +29,8 @@ public class Problem3 {
 
     public static void main(String[] args) {
 
+        StopWatch stopWatch = new StopWatch();
+
         // all the food!
         List<String[]> foodList = readFile();
 
@@ -40,14 +44,15 @@ public class Problem3 {
         HashSet<ReviewStatTask> callableSet = new HashSet<>();
 
 
-        // this is assuming the later divide is clean. i.e. % callableCount == 0.
+        // amount of callables.
         int callableCount = 50;
-        int productListSize = foodList.size();
+        int foodListSize = foodList.size();
 
         // assuming long is not needed
-        int partitionSize = foodList.size() / callableCount;
+        int partitionSize = foodListSize / callableCount;
 
-        for (int i = 0, j = 1; i < productListSize; i += partitionSize, j++) {
+        // create callables.
+        for (int i = 0, j = 1; i < foodListSize; i += partitionSize, j++) {
 
             if (j != callableCount) {
 
@@ -61,7 +66,7 @@ public class Problem3 {
                 callableSet.add(
                         new ReviewStatTask(
                                 "coffee",
-                                foodList.subList(i, productListSize))
+                                foodList.subList(i, foodListSize))
                 );
 
                 // if it's the last you break out of the loop of course
