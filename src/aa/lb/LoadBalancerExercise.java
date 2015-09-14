@@ -86,13 +86,13 @@ public class LoadBalancerExercise {
     /**
      * Launches two 'workers' to provide service for requests.  These are implemented as separate threads, so they
      * will run in parallel if you have > 1 core.
-     * <p/>
+     * <p>
      * Note that in this exercise, requests are sent much faster than they can be processed (the workers queue them up).
      * This may affect what algorithm is most optimal.
-     * <p/>
+     * <p>
      * You can ask the worker for the number of requests currently waiting in queue by calling:
      * worker.currentQueueSize();  //returns int
-     * <p/>
+     * <p>
      * All requests sent to a single worker are processed in the order received.  The service will output the time
      * to do actual processing for each request, and the total response time (~time in queue + processing) for that
      * request.
