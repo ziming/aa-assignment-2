@@ -14,7 +14,8 @@ import java.util.concurrent.RecursiveAction;
 
 public class SearchFishAction extends RecursiveAction {
 
-    private static final int LIMIT = 15_000_000;
+    private static final int LIMIT = 1500000;
+    private static final int FILE_LIMIT = 2;
 
     // CSV Columns
     // TradeID, BuyerID, SellerID, Fish Type, Price, Number of Fish traded
@@ -24,6 +25,7 @@ public class SearchFishAction extends RecursiveAction {
     private static final int FISH_TYPE = 3;
     private static final int PRICE = 4;
     private static final int NUMBER_OF_FISH_TRADED = 5;
+
     private List<String[]> fishList;
 
     public SearchFishAction(List<String[]> fishList) {
@@ -65,24 +67,11 @@ public class SearchFishAction extends RecursiveAction {
                 String[] row;
 
                 while ((row = parser.parseNext()) != null) {
-
                     fishList.add(row);
-
-                    // serial print it is so much faster.
-//                    if (row[FISH_TYPE].equals("sting ray")) {
-//
-//                        // assumption it will all be proper integer strings, hence no exception
-//                        int fishPrice = Integer.parseInt(row[PRICE]);
-//
-//                        if (fishPrice > 9000) {
-//                            System.out.println("score");
-//                        }
-//
-//                    }
                 }
 
                 // the csv lib docs says that close() is automatically called when the end is reached
-                // but not much harm calling it here too again just to make the intent clear to group mates.
+                // but not much harm calling it here too again just to make the intent clear to group mates and prof.
                 parser.stopParsing();
 
             }
