@@ -194,7 +194,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
                 // only add to foodreview list if it is legit.
                 for (String word : petRelatedWords) {
 
-                    if (row[SUMMARY].contains(word) || row[TEXT].contains(word)) {
+                    if (row[SUMMARY].toLowerCase().contains(word) || row[TEXT].toLowerCase().contains(word)) {
                         foodReviewList.add(row);
                         break;
                     }
