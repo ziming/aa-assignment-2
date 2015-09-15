@@ -154,6 +154,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
          */
 
         List<String[]> foodReviewList = new ArrayList<>(568454);
+        Set<String> acceptedProductIds = new HashSet<>();
 
         // Hmmm
         try (BufferedReader br = new BufferedReader(new FileReader("foods.txt"))) {
@@ -164,41 +165,50 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
 
                 String[] row = new String[8];
 
-                row[0] = currentLine.replace("product/productId: ", "");
+                row[PRODUCT_ID] = currentLine.replace("product/productId: ", "");
 
                 currentLine = br.readLine();
-                row[1] = currentLine.replace("review/userId: ", "");
+                row[USER_ID] = currentLine.replace("review/userId: ", "");
 
                 currentLine = br.readLine();
-                row[2] = currentLine.replace("review/profileName: ", "");
+                row[PROFILE_NAME] = currentLine.replace("review/profileName: ", "");
 
                 currentLine = br.readLine();
-                row[3] = currentLine.replace("review/helpfulness: ", "");
+                row[HELPFULNESS] = currentLine.replace("review/helpfulness: ", "");
 
                 currentLine = br.readLine();
-                row[4] = currentLine.replace("review/score: ", "");
+                row[SCORE] = currentLine.replace("review/score: ", "");
 
                 currentLine = br.readLine();
-                row[5] = currentLine.replace("review/time: ", "");
+                row[TIME] = currentLine.replace("review/time: ", "");
 
                 currentLine = br.readLine();
-                row[6] = currentLine.replace("review/summary: ", "");
+                row[SUMMARY] = currentLine.replace("review/summary: ", "");
 
                 currentLine = br.readLine();
-                row[7] = currentLine.replace("review/text: ", "");
+                row[TEXT] = currentLine.replace("review/text: ", "");
 
 
                 // read the empty line
                 br.readLine();
 
-                // only add to foodreview list if it is legit.
-                for (String word : petRelatedWords) {
+                // if i previously accept it I should accept future reviews of it for consistency.
+                if (acceptedProductIds.contains(row[PRODUCT_ID])) {
+                    foodReviewList.add(row);
+                } else {
 
-                    if (row[SUMMARY].toLowerCase().contains(word) || row[TEXT].toLowerCase().contains(word)) {
-                        foodReviewList.add(row);
-                        break;
+                    // only add to foodreview list if it is legit.
+
+                    for (String word : petRelatedWords) {
+
+                        if (row[SUMMARY].toLowerCase().contains(word) || row[TEXT].toLowerCase().contains(word)) {
+                            foodReviewList.add(row);
+                            acceptedProductIds.add(row[PRODUCT_ID]);
+                            break;
+                        }
                     }
                 }
+
 
 
             }
@@ -266,6 +276,8 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
                     double[] productStat = result1.get(keyStr);
                     productStat[PRODUCT_TOTAL_SCORE] += result2.get(keyStr)[PRODUCT_TOTAL_SCORE];
                     productStat[PRODUCT_REVIEW_COUNT] += result2.get(keyStr)[PRODUCT_REVIEW_COUNT];
+                } else {
+                    result1.put(keyStr, result2.get(keyStr));
                 }
 
             }
