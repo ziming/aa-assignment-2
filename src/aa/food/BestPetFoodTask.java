@@ -23,7 +23,8 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
     private static final int PRODUCT_TOTAL_SCORE = 0;
     private static final int PRODUCT_REVIEW_COUNT = 1;
     private static final int PRODUCT_AVERAGE_SCORE = 2;
-    private String[] petRelatedWords = {
+
+    private static String[] petRelatedWords = {
 
             // animal names or related
             "dog",
@@ -51,6 +52,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "drinkwell"
 
     };
+    private final int LIMIT = 100_000;
     private List<String[]> foodReviewList;
 
     public BestPetFoodTask(List<String[]> foodReviewList) {
@@ -86,7 +88,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
 
         for (double[] productResult : mergedResult.values()) {
             productResult[PRODUCT_AVERAGE_SCORE] = productResult[PRODUCT_TOTAL_SCORE] / productResult[PRODUCT_REVIEW_COUNT];
-            //System.out.println(Arrays.toString(productResult));
+//            System.out.println(Arrays.toString(productResult));
             totalReviewCount += productResult[PRODUCT_REVIEW_COUNT];
         }
 
@@ -125,7 +127,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
 
         Collections.sort(foodReviewStatList);
 
-        // only the top 50. SG 50!
+        // Print only the top 50. SG 50!
         for (FoodReviewStat foodReviewStat : foodReviewStatList.subList(0, 50)) {
             System.out.println(foodReviewStat);
         }
@@ -186,12 +188,18 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
                 row[7] = currentLine.replace("review/text: ", "");
 
 
-//                System.out.println(Arrays.toString(row));
-
                 // read the empty line
                 br.readLine();
 
-                foodReviewList.add(row);
+                // only add to foodreview list if it is legit.
+                for (String word : petRelatedWords) {
+
+                    if (row[SUMMARY].contains(word) || row[TEXT].contains(word)) {
+                        foodReviewList.add(row);
+                        break;
+                    }
+                }
+
 
             }
 
@@ -209,36 +217,62 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
         // assume handle all first, assume all pet food at this stage.
         // keep it simple only go by score first.
 
-        Map<String, double[]> foodReviewListMap = new HashMap<>();
+        if (foodReviewList.size() <= LIMIT) {
+            Map<String, double[]> foodReviewListMap = new HashMap<>();
 
-        for (String[] foodReview : foodReviewList) {
+            for (String[] foodReview : foodReviewList) {
 
-            double score = Double.parseDouble(foodReview[SCORE]);
-            String productId = foodReview[PRODUCT_ID];
+                double score = Double.parseDouble(foodReview[SCORE]);
+                String productId = foodReview[PRODUCT_ID];
 
-            double[] productStat = foodReviewListMap.get(productId);
+                double[] productStat = foodReviewListMap.get(productId);
 
-            if (productStat == null) {
+                if (productStat == null) {
 
-                // 3rd item to store average rating later.
-                productStat = new double[3];
+                    // 3rd item to store average rating later.
+                    productStat = new double[3];
 
-                productStat[PRODUCT_TOTAL_SCORE] = score;
-                productStat[PRODUCT_REVIEW_COUNT] = 1.0;
+                    productStat[PRODUCT_TOTAL_SCORE] = score;
+                    productStat[PRODUCT_REVIEW_COUNT] = 1.0;
 
-                // add to food review list map.
-                foodReviewListMap.put(productId, productStat);
+                    // add to food review list map.
+                    foodReviewListMap.put(productId, productStat);
 
-            } else {
+                } else {
 
-                productStat[PRODUCT_TOTAL_SCORE] += score;
-                productStat[PRODUCT_REVIEW_COUNT]++;
+                    productStat[PRODUCT_TOTAL_SCORE] += score;
+                    productStat[PRODUCT_REVIEW_COUNT]++;
+
+                }
 
             }
 
+            return foodReviewListMap;
+        } else {
+            int foodReviewListSize = foodReviewList.size();
+            BestPetFoodTask subTask1 = new BestPetFoodTask(foodReviewList.subList(0, foodReviewListSize / 2));
+            BestPetFoodTask subTask2 = new BestPetFoodTask(foodReviewList.subList(foodReviewListSize / 2, foodReviewListSize));
+
+            subTask1.fork();
+            subTask2.fork();
+
+            // now the join
+            Map<String, double[]> result1 = subTask1.join();
+            Map<String, double[]> result2 = subTask2.join();
+
+            for (String keyStr : result2.keySet()) {
+
+                if (result1.containsKey(keyStr)) {
+                    double[] productStat = result1.get(keyStr);
+                    productStat[PRODUCT_TOTAL_SCORE] += result2.get(keyStr)[PRODUCT_TOTAL_SCORE];
+                    productStat[PRODUCT_REVIEW_COUNT] += result2.get(keyStr)[PRODUCT_REVIEW_COUNT];
+                }
+
+            }
+
+            return result1;
+
         }
 
-
-        return foodReviewListMap;
     }
 }
