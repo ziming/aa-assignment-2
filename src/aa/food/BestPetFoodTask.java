@@ -46,7 +46,6 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "birdfeeders",
             "nuthatch",
             "nuthatches",
-            "fish",
             "fishes",
             "loaches",
             "catfish",
