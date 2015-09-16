@@ -38,8 +38,19 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "felines",
             "bird",
             "birds",
+            "hummingbird",
+            "hummingbirds",
+            "woodpecker",
+            "woodpeckers",
+            "birdfeeder",
+            "birdfeeders",
+            "nuthatch",
+            "nuthatches",
             "fish",
             "fishes",
+            "loaches",
+            "catfish",
+            "fishkeeping",
             "reptile",
             "reptiles",
             "amphibian",
@@ -51,8 +62,9 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "canine",
             "canines",
             "veterinary",
+            "petfood",
 
-            // some animal product brands
+            // some animal product brands, from amazon website too, brands that are known to also sell non pet food are removed.
             // got to check if they sell non animal products too and filter.
             "petsafe",
             "nylabone",
