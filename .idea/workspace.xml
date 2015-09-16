@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="247241a4-4368-44f8-a577-ccd3139c7ae1" name="Default" comment="Added in the stopwatch1 and 2 for qn 4">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/aa/food/BestPetFoodTask.java" afterPath="$PROJECT_DIR$/src/aa/food/BestPetFoodTask.java" />
+    <list default="true" id="247241a4-4368-44f8-a577-ccd3139c7ae1" name="Default" comment="Edited the limit back to 100,000">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="aa-assignment-2.iws" />
@@ -40,7 +39,7 @@
       <file leaf-file-name="BestPetFoodTask.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/aa/food/BestPetFoodTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24860336">
+            <state vertical-scroll-proportion="3.3519554">
               <caret line="80" column="31" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -818,7 +817,7 @@
       <workItem from="1442135359341" duration="10259000" />
       <workItem from="1442282383949" duration="943000" />
       <workItem from="1442288842371" duration="757000" />
-      <workItem from="1442313551693" duration="11745000" />
+      <workItem from="1442313551693" duration="11943000" />
     </task>
     <task id="LOCAL-00001" summary="remove equal comparison">
       <created>1441954786929</created>
@@ -940,11 +939,17 @@
       <option name="project" value="LOCAL" />
       <updated>1442373454979</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Edited the limit back to 100,000">
+      <created>1442374878855</created>
+      <option name="number" value="00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1442374878855</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57301000" />
+    <option name="totallyTimeSpent" value="57499000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1017,7 +1022,8 @@
     <MESSAGE value="commit initial version of problem 3, haven't really check it yet!" />
     <MESSAGE value="Added in the stopwatch" />
     <MESSAGE value="Added in the stopwatch1 and 2 for qn 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added in the stopwatch1 and 2 for qn 4" />
+    <MESSAGE value="Edited the limit back to 100,000" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited the limit back to 100,000" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1310,7 +1316,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/aa/food/BestPetFoodTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24860336">
+        <state vertical-scroll-proportion="3.3519554">
           <caret line="80" column="31" selection-start-line="80" selection-start-column="31" selection-end-line="80" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
