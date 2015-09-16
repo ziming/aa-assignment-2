@@ -27,13 +27,16 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
     private static String[] petRelatedWords = {
 
             // animal names or related
+            // got from amazon site pet supplies category
             "dog",
+            "puppy",
+            "puppies",
             "cat",
+            "feline",
             "bird",
             "fish",
             "reptile",
             "amphibian",
-            "hare",
             "rabbit",
             "pet",
             "canine",
@@ -201,7 +204,18 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
 
                     for (String word : petRelatedWords) {
 
-                        if (row[SUMMARY].toLowerCase().contains(word) || row[TEXT].toLowerCase().contains(word)) {
+                        // not very robust
+                        List<String> summaryWords = Arrays.asList(row[SUMMARY].toLowerCase().split(" "));
+                        List<String> textWords = Arrays.asList(row[TEXT].toLowerCase().split(" "));
+
+                        if (summaryWords.contains(word) || textWords.contains(word)) {
+
+//                            if (row[PRODUCT_ID].equals("B000E1HVR0")) {
+//                                System.out.println(word);
+//                                System.out.println(row[SUMMARY]);
+//                                System.out.println(row[TEXT]);
+//                            }
+                            
                             foodReviewList.add(row);
                             acceptedProductIds.add(row[PRODUCT_ID]);
                             break;
