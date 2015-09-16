@@ -1,6 +1,8 @@
 package aa.food;
 
 
+import aa.StopWatch;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -76,7 +78,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "drinkwell"
 
     };
-    private final int LIMIT = 100_000;
+    private final int LIMIT = 600_000;
     private List<String[]> foodReviewList;
 
     public BestPetFoodTask(List<String[]> foodReviewList) {
@@ -99,14 +101,19 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
      */
     public static void main(String[] args) {
 
+        StopWatch stopWatch = new StopWatch();
+        StopWatch stopWatch2 = new StopWatch();
+        stopWatch.start();
         List<String[]> foodReviewList = readFile();
 
         ForkJoinPool forkJoinPool = new ForkJoinPool();
 
         BestPetFoodTask bestPetFoodTask = new BestPetFoodTask(foodReviewList);
-
+        stopWatch2.start();
         Map<String, double[]> mergedResult = forkJoinPool.invoke(bestPetFoodTask);
-
+        stopWatch2.stop();
+        long elapsedTime2 = stopWatch.getTime();
+        System.out.println("Total execution time (ms)for invoke: " + (elapsedTime2));
         // calculate average for every item
         int totalReviewCount = 0;
 
@@ -155,7 +162,9 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
         for (FoodReviewStat foodReviewStat : foodReviewStatList.subList(0, 50)) {
             System.out.println(foodReviewStat);
         }
-
+        stopWatch.stop();
+        long elapsedTime = stopWatch.getTime();
+        System.out.println("Total execution time (ms): " + (elapsedTime));
     }
 
     /*
