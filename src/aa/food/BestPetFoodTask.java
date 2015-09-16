@@ -78,7 +78,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             "drinkwell"
 
     };
-    private final int LIMIT = 600_000;
+    private final int LIMIT = 100_000;
     private List<String[]> foodReviewList;
 
     public BestPetFoodTask(List<String[]> foodReviewList) {
