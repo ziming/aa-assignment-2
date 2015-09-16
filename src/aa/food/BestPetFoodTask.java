@@ -29,17 +29,27 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
             // animal names or related
             // got from amazon site pet supplies category
             "dog",
+            "dogs",
             "puppy",
             "puppies",
             "cat",
+            "cats",
             "feline",
+            "felines",
             "bird",
+            "birds",
             "fish",
+            "fishes",
             "reptile",
+            "reptiles",
             "amphibian",
+            "amphibians",
             "rabbit",
+            "rabbits",
             "pet",
+            "pets",
             "canine",
+            "canines",
             "veterinary",
 
             // some animal product brands
@@ -215,7 +225,7 @@ public class BestPetFoodTask extends RecursiveTask<Map<String, double[]>> {
 //                                System.out.println(row[SUMMARY]);
 //                                System.out.println(row[TEXT]);
 //                            }
-                            
+
                             foodReviewList.add(row);
                             acceptedProductIds.add(row[PRODUCT_ID]);
                             break;
