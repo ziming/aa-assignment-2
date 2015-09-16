@@ -37,7 +37,7 @@ public class Problem3 {
         // foodList is filled so now we continue.
 
         // Thread Pool Creation
-        int poolSize = 2;
+        int poolSize = 45;
         ExecutorService executorService = Executors.newFixedThreadPool(poolSize);
 
         // Callables creation
@@ -45,7 +45,7 @@ public class Problem3 {
 
 
         // amount of callables.
-        int callableCount = 50;
+        int callableCount = 45;
         int foodListSize = foodList.size();
 
         // assuming long is not needed
@@ -79,6 +79,7 @@ public class Problem3 {
 //        System.out.println(callableSet.size());
 
         try {
+            stopWatch.start();
             List<Future<HashMap<String, Long>>> futures = executorService.invokeAll(callableSet);
 
             long totalProductWithSearchTermCount = 0;
@@ -92,7 +93,9 @@ public class Problem3 {
 
 
             executorService.shutdown();
-
+            stopWatch.stop();
+            long elapsedTime = stopWatch.getTime();
+            System.out.println("Total execution time (ms): " + (elapsedTime));
             double avgReviewRating = (double) totalReviewScore / totalProductWithSearchTermCount;
             System.out.printf("Average Review Rating is " + avgReviewRating);
 
